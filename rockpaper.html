@@ -1,0 +1,128 @@
+<html>    
+    <body>
+        <style>
+         
+         .player-options img,
+         .enemy-options img{
+             max-width: 175px;
+             opacity: 0.2;
+             cursor: pointer;
+         }
+        
+         .player-options, .enemy-options{
+             width: 35%;
+         }
+         .align{
+             display: flex;
+         }
+        </style>
+        
+        <h1 style="text-align:center;">Pedra, Papel ou tesoura</h1>
+        <hr>
+        <h2 style="text-align:center;" class="Placar"></h2>
+        <hr>
+        <div class="align">
+        <div class="player-options">
+            <div><img opt="papel" src="pedrapapeltesoura/paper.png" alt="papel"></div>
+            <div><img opt="pedra" src="pedrapapeltesoura/rock.png" alt="pedra"></div>
+            <div><img opt="tesoura" src="pedrapapeltesoura/scisor.png" alt="Tesoura"></div>
+        </div>
+        <div class="enemy-options">
+            <div><img opt="papel" src="pedrapapeltesoura/paper.png" alt="papel"></div>
+            <div><img opt="pedra" src="pedrapapeltesoura/rock.png" alt="pedra"></div>
+            <div><img opt="tesoura" src="pedrapapeltesoura/scisor.png" alt="Tesoura"></div>
+        </div>
+    </div>
+        <script>
+            var elementos = document.querySelectorAll('.player-options div > img');
+            var PlayerOpt = '';
+            var inimigoOpt = '';
+
+            function validarVitoria() {
+                
+                let placar = document.querySelector('.Placar');
+
+                if(PlayerOpt == 'papel'){
+                    if(inimigoOpt == 'papel'){
+                        //empate
+                        placar.innerHTML = 'Empate';
+                        console.log('Empate')
+                    }else if(inimigoOpt == 'tesoura'){
+                        //bot ganhou
+                       placar.innerHTML = 'Perdeu'
+                        console.log('Perdeu')
+                    }else if(inimigoOpt == 'pedra'){
+                        //player ganhou
+                       placar.innerHTML = 'Ganhou'
+                        console.log('Ganhou')
+                    }
+                }
+
+                if(PlayerOpt == 'pedra'){
+                    if(inimigoOpt == 'papel'){
+                        placar.innerHTML = 'Perdeu'
+                        console.log('Perdeu')
+                    }else if(inimigoOpt == 'tesoura'){
+                        placar.innerHTML = 'Ganhou'
+                        console.log('Ganhou')
+                    }else if(inimigoOpt == 'pedra'){
+                        placar.innerHTML = 'Empate'
+                        console.log('Empate')
+                    }
+                }
+
+                if(PlayerOpt == 'tesoura'){
+                    if(inimigoOpt == 'papel'){
+                        placar.innerHTML = 'Ganhou'
+                        console.log('Ganhou')
+                    }else if(inimigoOpt == 'tesoura'){
+                        placar.innerHTML = 'empate'
+                        console.log('empate')
+                    }else if(inimigoOpt == 'pedra'){
+                        placar.innerHTML = 'Perdeu'
+                        console.log('Perdeu')
+                    }
+                }
+            }
+             function resetInimigo(){
+                const enemyOptions = document.querySelectorAll('.enemy-options div')
+                for (var i = 0; i < enemyOptions.length; i++ ){
+                    enemyOptions[i].childNodes[0].style.opacity = 0.2;
+                }
+            }
+
+            function inimigoJogar(){
+                let rand = Math.floor(Math.random()*3);
+
+                const enemyOptions = document.querySelectorAll('.enemy-options div')
+                resetInimigo();
+                for (var i = 0; i < enemyOptions.length; i++ ){
+                    if(i == rand){
+                        enemyOptions[i].childNodes[0].style.opacity = 1;
+                        inimigoOpt = enemyOptions[i].childNodes[0].getAttribute('opt');
+                    }
+                }
+
+                validarVitoria();
+
+            }
+
+           
+
+            function resetOpacityPlayer() {
+                for (var i = 0; i < elementos.length; i++){
+                elementos[i].style.opacity = 0.2;
+            }}
+
+            for(var i = 0; i < elementos.length; i++ ){
+                elementos[i].addEventListener('click', (t)=>{
+                    resetOpacityPlayer();
+                    t.target.style.opacity = 1;
+                    PlayerOpt = t.target.getAttribute('opt');
+
+                    inimigoJogar();
+                });
+            }
+        </script>
+    </body>
+</html>
